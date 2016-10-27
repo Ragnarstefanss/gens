@@ -4,9 +4,6 @@ apply plugin: 'application'
 
 mainClassName = "is.gens.tictactoe.TicTacToe"
 
-
-mainClassName = "is.gens.tictactoe.TicTacToe"
-
 task(runMain, dependsOn: 'classes', type: JavaExec) {
     main = 'is.gens.tictactoe.TicTacToe'
     classpath = sourceSets.main.runtimeClasspath
