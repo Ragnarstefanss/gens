@@ -7,10 +7,12 @@ import org.junit.Test;
 public class BoardTest {
 
     @Test
-    public void displayEmptyBoard() {
+    public void EmptyTable() {
 		char[][] table = new char[3][3];
+
         Board board = new Board();
-		
-        assertEquals(table, board.displayBoard(table)); 
+		board.initialize_table(table, 3, 3);
+
+       	assertEquals(' ', table[1][0]);
 	}
 }
