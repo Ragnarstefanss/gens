@@ -14,7 +14,10 @@ public class TicTacToe {
 
 		board.displayBoard(table);
 
-		/*do {
-		} while(board.can_move(table, player_o, player_x));*/
+
+		do {
+			board.make_move(table, player_x);
+			board.displayBoard(table);
+		} while(board.can_move(table, player_o, player_x));
     }
 }

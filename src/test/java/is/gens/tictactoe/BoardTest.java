@@ -13,6 +13,6 @@ public class BoardTest {
         Board board = new Board();
 		board.initialize_table(table, 3, 3);
 
-       	assertEquals(' ', table[1][0]);
+       	assertEquals('1', table[0][0]);
 	}
 }

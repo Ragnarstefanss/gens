@@ -1,5 +1,5 @@
 package is.gens.tictactoe;
-import java.util.Scanner;
+import java.util.*;
 
 public class Board {
 
@@ -24,7 +24,6 @@ public class Board {
 
     	if(table[0][0] != ' ')
     	{
-
 		    System.out.println(table[0][0] + " | " + table[0][1] + " | " + table[0][2] );
     		System.out.println("---------");
 		    System.out.println(table[1][0] + " | " + table[1][1] + " | " + table[1][2] );
@@ -35,7 +34,6 @@ public class Board {
 	    {
 	    	System.out.println("Empty board");
 	    }
-
 	}	
 
 	public static boolean can_move(char table[][], char player_o, char player_x) {
@@ -50,8 +48,43 @@ public class Board {
 	    return false;
 	}
 
-	public static void make_move(char table[][], char player)
-	{
-		System.out.println("Insert letter + number");
+	public static void valid_move(char table[][], char player, int value) {
+		int convert = value + 48;
+		char value_equals = (char) convert;
+
+	    for (int i = 0; i < 3; i++) {
+	        for (int j = 0; j < 3; j++) {
+	        	if(table[i][j] == value_equals)
+	        	{
+	        		if(table[i][j] == 'X' || table[i][j] == 'O')
+	        		{
+	        			System.out.println("\nInvalid position!\n");
+	        		}
+
+	        		else {
+	        			table[i][j] = player;
+	        		}
+	        	}
+	        }
+	    }
 	}
+
+
+	public static void make_move(char table[][], char player)
+	{	
+		System.out.println("\nPick a number");
+		Scanner scanner = new Scanner(System.in);
+		String input = scanner.next();
+		int number = Integer.parseInt(input);
+		
+		if (number < 1 || number > 9){
+			System.out.println("\nInvalid position!\n");
+		}
+		else
+		{
+			valid_move(table, player, number);
+		}
+	}
+
+
 }
