@@ -36,10 +36,10 @@ public class Board {
 	    }
 	}	
 
-	public static boolean can_move(char table[][], char player_o, char player_x) {
+	public static boolean can_move(char table[][]) {
 	    for (int i = 0; i < 3; i++) {
 	        for (int j = 0; j < 3; j++) {
-	            if (table[i][j] != player_x && table[i][j] != player_o)
+	            if (table[i][j] != 'X' && table[i][j] != 'O')
 	            {
 	                return true;
 	            }
@@ -48,31 +48,34 @@ public class Board {
 	    return false;
 	}
 
-	public static void valid_move(char table[][], char player, int value) {
+	public static boolean valid_move(char table[][], char player, int value) {
 		int convert = value + 48;
 		char value_equals = (char) convert;
 
 	    for (int i = 0; i < 3; i++) {
 	        for (int j = 0; j < 3; j++) {
-	        	if(table[i][j] == value_equals)
-	        	{
+	        	if(table[i][j] == value_equals)	{
 	        		if(table[i][j] == 'X' || table[i][j] == 'O')
 	        		{
 	        			System.out.println("\nInvalid position!\n");
+	        			return false;
 	        		}
 
 	        		else {
 	        			table[i][j] = player;
+	        			player = changePlayer(player);
+	        			return true;
 	        		}
 	        	}
 	        }
 	    }
+	    return false;
 	}
 
 
 	public static void make_move(char table[][], char player)
 	{	
-		System.out.println("\nPick a number");
+		System.out.println("\n" + player + " Pick a number");
 		Scanner scanner = new Scanner(System.in);
 		String input = scanner.next();
 		int number = Integer.parseInt(input);
@@ -86,5 +89,114 @@ public class Board {
 		}
 	}
 
+	public static char checkIfWinner(int o_number, int x_number, int size)
+	{
+		char o = 'O';
+		char x = 'X';
+		char nobody = 'N';
 
+		if (o_number == size) {
+	        return o;
+		}
+	    else if (x_number == size) {
+	        return x;
+	    }
+	       
+	    return nobody;
+	}
+
+	public static void checkRowWinner(char table[][], int arr_size, int row)
+	{
+		int o_number = 0;
+	    int x_number = 0;
+
+	    for (int j = 0; j < arr_size; j++) {
+	        if (table[row][j] == 'O') {
+	            o_number++;
+	        }
+	        else if (table[row][j] == 'X') {
+	            x_number++;
+	        }
+	    }
+	    checkIfWinner(o_number, x_number, arr_size);
+
+	}
+
+	public static void checkColWinner(char table[][], int arr_size, int column) {
+	    int o_number = 0;
+	    int x_number = 0;
+
+	    for (int i = 0; i < arr_size; i++) {
+	        if (table[i][column] == 'O') {
+	            o_number++;
+	        }
+	        else if (table[i][column] == 'X') {
+	            x_number++;
+	        }
+	    }
+	    checkIfWinner(o_number, x_number, arr_size);
+	}
+
+	public static void checkDiagonalsWinner(char table[][], int arr_size)
+	{
+		int o_number = 0;
+	    int x_number = 0;
+	    int j = 0;
+
+	    // Byrjum efst í [0][0] og förum svo í [1][1] og svo [2][2]
+	    for (int i = 0; i < arr_size; i ++) {
+	        if (table[i][j] == 'O')
+	            o_number++;
+	        else if (table[i][j] == 'X')
+	            x_number++;
+	        j++;
+	    }
+
+	    char winner =  checkIfWinner(o_number, x_number, arr_size);
+
+	    // Byrjum efst í [0][2] og förum svo í [1][1] og svo [2][0]
+	    if (winner == 'N') {
+	        o_number = 0;
+	        x_number = 0;
+	        j = 2;
+	        for (int i = 0; i < arr_size; i ++) {
+	            if (table[i][j] == 'O')
+	                o_number++;
+	            else if (table[i][j] == 'X')
+	                x_number++;
+	            j--;
+	        }
+	        winner = checkIfWinner(o_number, x_number, arr_size);
+	    }
+	}
+
+/*
+	public static boolean isWinner(char table[][])
+	{/*
+		if((table[0][0] = 'X' && table[0][1] = 'X' && table[0][2] = 'X') || (table[0][0] = 'O' && table[0][1] = 'O' && table[0][2] = 'O'))
+		{
+			return true;
+		}
+		if((table[1][0] = 'X' && table[1][1] = 'X' && table[1][2] = 'X') || (table[1][0] = 'O' && table[1][1] = 'O' && table[1][2] = 'O'))
+		{
+			return true;
+		}
+		if((table[2][0] = 'X' && table[2][1] = 'X' && table[2][2] = 'X') || (table[2][0] = 'O' && table[2][1] = 'O' && table[2][2] = 'O'))
+		{
+			return true;
+		}
+		if((table[0][0] = 'X' && table[1][0] = 'X' && table[2][0] = 'X') || (table[0][0] = 'O' && table[1][0] = 'O' && table[2][0] = 'O'))
+		{
+			return true;
+		}
+		if((table[0][1] = 'X' && table[1][1] = 'X' && table[2][1] = 'X') || (table[0][1] = 'O' && table[1][1] = 'O' && table[2][1] = 'O'))
+		{
+			return true;
+		}
+		if((table[0][2] = 'X' && table[1][2] = 'X' && table[2][2] = 'X') || (table[0][2] = 'O' && table[1][2] = 'O' && table[2][2] = 'O'))
+		{
+			return true;
+		}
+		return false;
+	}*/
 }
