@@ -4,6 +4,10 @@ apply plugin: 'application'
 
 mainClassName = "is.gens.tictactoe.TicTacToe"
 
+run{
+ standardInput = System.in
+}
+
 task(runMain, dependsOn: 'classes', type: JavaExec) {
     main = 'is.gens.tictactoe.TicTacToe'
     classpath = sourceSets.main.runtimeClasspath
@@ -31,7 +35,7 @@ dependencies {
 }
 
 task stage (
-	dependsOn: ['installDist', 'build', 'clean']
+    dependsOn: ['installDist', 'build', 'clean']
 )
 
 build.mustRunAfter clean
